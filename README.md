@@ -1,7 +1,7 @@
 # 一键搭建动态代理
 ## 利用Tor实现动态代理
 ### Torrc
-重要配置如下:
+主要配置如下:
 ```
 SOCKSPort 0.0.0.0:9050 # Bind to this address:port too.
 SOCKSPort 0.0.0.0:38801 #这里开启多个tor端口，对于tor来说，每个端口会使用不同的链路，也就是不同的代理IP
@@ -20,7 +20,7 @@ CircuitBuildTimeout 10 #对于新建每个链路的过程来说，建立程序�
 ```
 
 ### xray
-利用xray的对不同协议以及inbound，outbound的灵活性，配置出站连接使用tor的socks,相关配置如下：
+利用xray的对不同协议的支持，以及inbound，outbound的灵活性，配置出站连接使用tor的socks,相关配置如下：
 ```json
 {
     "protocol": "socks",
