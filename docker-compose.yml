@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  xray:
+    image: teddysun/xray:latest
+    container_name: xray
+    hostname: xray
+    volumes:
+      - ./config/config.json:/etc/xray/config.json
+    tty: true
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:7777:7777
+
+  tor-privoxy:
+    restart: always
+    image: peterdavehello/tor-socks-proxy:latest
+    volumes:
+      - ./config/torrc:/etc/tor/torrc
+    ports:
+      - "127.0.0.1:38801:38801" # Tor SOCKS proxy
+      - "127.0.0.1:38802:38802" # Tor SOCKS proxy
+      - "127.0.0.1:38803:38803" # Tor SOCKS proxy
+      - "127.0.0.1:38804:38804" # Tor SOCKS proxy
+      - "127.0.0.1:38805:38805" # Tor SOCKS proxy
+      - "127.0.0.1:38806:38806" # Tor SOCKS proxy
+      - "127.0.0.1:38807:38807" # Tor SOCKS proxy
+      - "127.0.0.1:38808:38808" # Tor SOCKS proxy
+      - "127.0.0.1:38809:38809" # Tor SOCKS proxy
+      - "127.0.0.1:38810:38810" # Tor SOCKS proxy
+      - "127.0.0.1:9050:9050" # Tor proxy

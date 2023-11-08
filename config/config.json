@@ -1,0 +1,163 @@
+{
+  "api": {
+    "services": [
+      "HandlerService",
+      "LoggerService",
+      "StatsService"
+    ],
+    "tag": "api"
+  },
+  "dns": null,
+  "fakeDns": null,
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 62789,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1"
+      },
+      "sniffing": null,
+      "streamSettings": null,
+      "tag": "api"
+    },
+    {
+      "listen": null,
+      "port": 7777,
+      "protocol": "socks",
+      "settings": {
+        "accounts": [
+          {
+            "pass": "",
+            "user": ""
+          }
+        ],
+        "auth": "noauth",
+        "ip": "127.0.0.1",
+        "udp": false
+      },
+      "sniffing": null,
+      "streamSettings": null,
+      "tag": "inbound-31445"
+    }
+  ],
+  "log": {
+    "error": "./error.log",
+    "loglevel": "warning"
+  },
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "protocol": "socks",
+      "settings": {
+        "servers": [
+          {
+            "address": "tor-privoxy",
+            "port": 38801
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38802
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38803
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38804
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38805
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38806
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38807
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38808
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38809
+          },
+          {
+            "address": "tor-privoxy",
+            "port": 38810
+          }
+        ]
+      },
+      "tag": "socks_out"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "policy": {
+    "levels": {
+      "0": {
+        "statsUserDownlink": true,
+        "statsUserUplink": true
+      }
+    },
+    "system": {
+      "statsInboundDownlink": true,
+      "statsInboundUplink": true
+    }
+  },
+  "reverse": null,
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api",
+        "type": "field"
+      },
+      {
+        "domain": [
+          "regexp:.*"
+        ],
+        "outboundTag": "socks_out",
+        "type": "field"
+      },
+      {
+        "ip": [
+          "0.0.0.0/0",
+          "::/0"
+        ],
+        "outboundTag": "socks_out",
+        "type": "field"
+      },
+      {
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked",
+        "type": "field"
+      },
+      {
+        "outboundTag": "blocked",
+        "protocol": [
+          "bittorrent"
+        ],
+        "type": "field"
+      }
+    ]
+  },
+  "stats": {},
+  "transport": null
+}
